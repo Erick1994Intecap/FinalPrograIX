@@ -115,5 +115,24 @@ namespace ApiRestHoovers.Services
             return result;
         }
 
+        public List<VehiculosConsultados> GetVehiculosConsultados()
+        {
+            _Conn = SqlService.GetSqlConnection();
+            _Conn.Open();
+            List<VehiculosConsultados> result = _Conn.Query<VehiculosConsultados>("select TOP 10 V.DESCRIPCION MARCA, COUNT(1) total from BITACORA B JOIN VEHICULO V ON B.DESCRIPCION = CAST(V.ID AS VARCHAR(MAX)) AND ID_METODO = 1 GROUP BY V.DESCRIPCION ORDER BY total DESC").ToList();
+            _Conn.Close();
+            return result;
+        }
+
+
+        public List<DetalleVehiculos> GetDetalleVehiculosConsultados()
+        {
+            _Conn = SqlService.GetSqlConnection();
+            _Conn.Open();
+            List<DetalleVehiculos> result = _Conn.Query<DetalleVehiculos>("select TP.DESCRIPCION, V.MODELO, COUNT(1) CONSULTAS from BITACORA B JOIN VEHICULO V ON B.DESCRIPCION = CAST(V.ID AS VARCHAR(MAX)) AND ID_METODO = 1 JOIN TIPO_VEHICULO TP ON TP.ID = V.ID_TIPO GROUP BY TP.DESCRIPCION, V.MODELO ORDER BY CONSULTAS DESC").ToList();
+            _Conn.Close();
+            return result;
+        }
+
     }
 }

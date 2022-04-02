@@ -69,5 +69,38 @@ namespace ApiRestHoovers.Controllers
                 return NotFound("Error: No existen viajes en este rango de fechas");
             }
         }
+
+        [HttpGet]
+        [Route("GetVehiculosConsultados")]
+        public ActionResult<List<VehiculosConsultados>> GetReportVConsultados()
+        {
+            var clienteService = new ClienteService();
+            {
+                var cliente = clienteService.GetVehiculosConsultados();
+                if (cliente != null)
+                {
+                    return Ok(cliente);
+                }
+                return NotFound();
+            }
+        }
+
+
+        [HttpGet]
+        [Route("GetDetalleVehiculosConsultados")]
+        public ActionResult<List<DetalleVehiculos>> GetReportDetalleVConsultados()
+        {
+            var clienteService = new ClienteService();
+            {
+                var cliente = clienteService.GetDetalleVehiculosConsultados();
+                if (cliente != null)
+                {
+                    return Ok(cliente);
+                }
+                return NotFound();
+            }
+        }
     }
 }
+
+

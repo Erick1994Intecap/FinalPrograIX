@@ -22,6 +22,34 @@ namespace ApiRestHoovers.Controllers
             _context = context;
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Vehiculo>> GetVehiculo(int? id)
+        {
+            var vehiculo = await _context.Vehiculos.FindAsync(id);
+
+            if (vehiculo == null)
+            {
+                return NotFound();
+            }
+            try
+            {
+                //string jsonString = JsonSerializer.Serialize(vehiculo);
+                _context.Bitacoras.Add(new Bitacora
+                {
+                    IdMetodo = 1,
+                    IdModulo = 2,
+                    Descripcion = id.ToString()
+                });
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                throw;
+            }
+
+            return vehiculo;
+        }
+
         [HttpGet]
         public ActionResult<List<VehiculoResult>> Get()
         {
