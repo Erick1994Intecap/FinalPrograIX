@@ -138,7 +138,7 @@ namespace ApiRestHoovers.Controllers
                 }
             }
 
-            return CreatedAtAction("GetViaje", new { id = viaje.Id }, viaje);
+            return Ok();
         }
 
         [HttpPost("Masivo")]
